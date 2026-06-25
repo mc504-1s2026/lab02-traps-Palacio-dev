@@ -6,13 +6,22 @@
 /* defined in src/trap_entry.S */
 extern void trap_entry();
 
-void handle_irq()
+void handle_irq(u64 cause)
 {
-	/* not implemented */
-	BUG();
+    switch (cause) {
+        case 5: // Supervisor Timer Interrupt
+            timer_irq();
+            break;
+        case 9: // Supervisor External Interrupt (UART/Keyboard later)
+            // external_irq_handler();
+            break;
+        default:
+            panic("Unhandled IRQ!");
+            break;
+    }
 }
 
-void handle_exception()
+void handle_exception(u64 cause)
 {
 	/* not implemented */
 	BUG();
@@ -20,10 +29,6 @@ void handle_exception()
 
 void trap_setup()
 {
-    /* * Write the virtual address of our assembly trap handler into stvec.
-     * By default, writing the raw address sets it to "Direct Mode" 
-     * (all traps jump to this exact address).
-     */
     csr_write(CSR_STVEC, (u64)trap_entry);
 }
 
@@ -46,24 +51,25 @@ void handle_trap()
 
 void hart_irq_enable()
 {
-	/* not implemented */
-	BUG();
+    csr_set(CSR_SSTATUS, CSR_SSTATUS_SIE);
 }
 
 u64 hart_irq_save()
 {
-	/* not implemented */
-	BUG();
+    u64 old_sstatus = csr_read_clear(CSR_SSTATUS, CSR_SSTATUS_SIE);
+    return (old_sstatus & CSR_SSTATUS_SIE) != 0;
 }
 
 void hart_irq_restore(u64 flags)
 {
-	/* not implemented */
-	BUG();
+    if (flags) {
+        hart_irq_enable();
+    } else {
+        hart_irq_disable();
+    }
 }
 
 void hart_irq_disable()
 {
-	/* not implemented */
-	BUG();
+    csr_clear(CSR_SSTATUS, CSR_SSTATUS_SIE);
 }

@@ -135,4 +135,6 @@ void serial_irq_enable();
  */
 void serial_irq_disable();
 
+char serial_getc(void);
+
 #endif

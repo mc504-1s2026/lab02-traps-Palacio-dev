@@ -12,12 +12,27 @@ void handle_irq(u64 cause)
         case 5: // Supervisor Timer Interrupt
             timer_irq();
             break;
-        case 9: // Supervisor External Interrupt (UART/Keyboard later)
-            // external_irq_handler();
+            
+        case 9: { // Supervisor External Interrupt
+            // 1. CLAIM: Ask the PLIC which external device interrupted us.
+            // We assume we are running on Hart 0.
+            u32 irq = plic_hart_claim_irq(0);
+            
+            if (irq != 0) {
+                // 2. HANDLE: Route the specific IRQ to its driver
+                if (irq == 10) {
+                    serial_irq(); // Read from the UART and echo it
+                } else {
+                    // If you add a virtio disk or network card later, 
+                    // you would add their IRQ numbers here!
+                    // printk("Unknown external IRQ: %d\n", irq);
+                }
+                
+                // 3. COMPLETE: Tell the PLIC we are done, so it can send more.
+                plic_hart_complete_irq(0, irq);
+            }
             break;
-        default:
-            panic("Unhandled IRQ!");
-            break;
+        }
     }
 }
 

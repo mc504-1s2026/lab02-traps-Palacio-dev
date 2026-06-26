@@ -1,6 +1,8 @@
 #include <arch/timer.h>
 #include <kernel/panic.h>
 #include "csr.h"
+#include <kernel/printf.h>
+#include <kernel/serial.h>
 
 #define TIMER_FREQ 10000000
 
@@ -28,5 +30,7 @@ void timer_set_alarm(u64 secs)
 
 void timer_irq()
 {
-	timer_irq_disable();
+    timer_irq_disable();
+    serial_puts("alarm\n");
+    serial_puts("> "); 
 }

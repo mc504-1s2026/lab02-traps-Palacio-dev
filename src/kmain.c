@@ -40,10 +40,10 @@ void kmain()
                 if (strncmp(cmd_buf, "uptime", 6) == 0) {
                     u64 ticks = timer_read();
                     u64 seconds = ticks / 10000000ULL; 
-                    printk("%ds\n", (int)seconds);
+                    printk(LOG_INFO, "%ds\n", (int)seconds);
                 } 
                 else if (strncmp(cmd_buf, "echo ", 5) == 0) {
-                    printk("%s\n", &cmd_buf[5]);
+                    printk(LOG_INFO, "%s\n", &cmd_buf[5]);
                 } 
                 else if (strncmp(cmd_buf, "alarm ", 6) == 0) {
                     u64 seconds = strtou64(&cmd_buf[6], 10);

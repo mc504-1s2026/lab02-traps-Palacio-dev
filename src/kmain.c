@@ -53,6 +53,7 @@ void kmain()
                     }
                 } 
             }
+            // Teste
 
             cmd_idx = 0;
             serial_puts("> ");

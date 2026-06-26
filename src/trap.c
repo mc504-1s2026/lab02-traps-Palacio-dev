@@ -1,7 +1,7 @@
 #include <kernel/types.h>
 #include <kernel/trap.h>
 #include <kernel/panic.h>
-#include <csr.h>
+#include <arch/csr.h>
 
 /* defined in src/trap_entry.S */
 extern void trap_entry();

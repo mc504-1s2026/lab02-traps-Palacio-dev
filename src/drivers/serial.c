@@ -3,7 +3,7 @@
 #include <kernel/types.h>
 #include <arch/plic.h>
 #include <arch/spinlock.h> 
-#include "csr.h"
+#include <arch/csr.h>
 
 #define UART_BASE 0x10000000
 #define UART_RBR 0 

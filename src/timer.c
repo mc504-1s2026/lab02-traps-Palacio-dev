@@ -1,6 +1,6 @@
 #include <arch/timer.h>
 #include <kernel/panic.h>
-#include "csr.h"
+#include <arch/csr.h>
 #include <kernel/printf.h>
 #include <kernel/serial.h>
 

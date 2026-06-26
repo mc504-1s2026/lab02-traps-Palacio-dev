@@ -2,6 +2,9 @@
 #include <kernel/trap.h>
 #include <kernel/panic.h>
 #include <arch/csr.h>
+#include <arch/timer.h>
+#include <arch/plic.h>
+#include <kernel/serial.h>
 
 /* defined in src/trap_entry.S */
 extern void trap_entry();

@@ -8,7 +8,7 @@
 
 u64 timer_read()
 {
-	return csr_read(CSR_STIME);
+	return csr_read(CSR_TIME);
 }
 
 void timer_irq_enable()
